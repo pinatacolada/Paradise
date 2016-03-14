@@ -49,21 +49,19 @@
 		if(aiRestorePowerRoutine == 2)
 			src << "Alert cancelled. Power has been restored without our assistance."
 			aiRestorePowerRoutine = 0
-			blind.layer = 0
+			clear_fullscreen("blind")
 		else if(aiRestorePowerRoutine == 3)
 			src << "Alert cancelled. Power has been restored."
 			aiRestorePowerRoutine = 0
-			blind.layer = 0
+			clear_fullscreen("blind")
 
 
 	else
-
-		blind.screen_loc = "1,1 to 15,15"
-		if(blind.layer != 18)
-			blind.layer = 18
 		sight &= ~SEE_TURFS
 		sight &= ~SEE_MOBS
 		sight &= ~SEE_OBJS
+
+		overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
 
 		see_in_dark = 0
 		see_invisible = SEE_INVISIBLE_LIVING
@@ -85,7 +83,6 @@
 					if(my_area && my_area.power_equip && !istype(T, /turf/space))
 						src << "Alert cancelled. Power has been restored without our assistance."
 						aiRestorePowerRoutine = 0
-						blind.layer = 0
 						return
 					src << "Fault confirmed: missing external power. Shutting down main control system to save power."
 					sleep(20)
@@ -122,7 +119,7 @@
 							if (!istype(T, /turf/space))
 								src << "Alert cancelled. Power has been restored without our assistance."
 								aiRestorePowerRoutine = 0
-								blind.layer = 0
+								clear_fullscreen("blind")
 								return
 
 						switch(PRP)
@@ -135,10 +132,8 @@
 								src << "Receiving control information from APC."
 								sleep(2)
 								//bring up APC dialog
-								apc_override = 1
-								theAPC.attack_ai(src)
-								apc_override = 0
 								aiRestorePowerRoutine = 3
+								theAPC.attack_ai(src)
 								src << "Here are your current laws:"
 								src.show_laws() //WHY THE FUCK IS THIS HERE
 						sleep(50)

@@ -205,7 +205,7 @@
 		else
 			prefix=""
 
-		var/list/words = text2list(message," ")
+		var/list/words = splittext(message," ")
 		var/list/rearranged = list()
 		for(var/i=1;i<=words.len;i++)
 			var/cword = pick(words)
@@ -216,7 +216,7 @@
 				suffix = copytext(cword,length(cword)-1,length(cword)  )
 			if(length(cword))
 				rearranged += cword
-		return "[prefix][uppertext(list2text(rearranged," "))]!!"
+		return "[prefix][uppertext(jointext(rearranged," "))]!!"
 
 // WAS: /datum/bioEffect/toxic_farts
 /datum/dna/gene/disability/toxic_farts
@@ -348,8 +348,7 @@
 
 	L.adjust_fire_stacks(0.5)
 	L.visible_message("\red <b>[L.name]</b> suddenly bursts into flames!")
-	L.on_fire = 1
-	L.update_icon = 1
+	L.IgniteMob()
 	playsound(L.loc, 'sound/effects/bamf.ogg', 50, 0)
 
 ////////////////////////////////////////////////////////////////////////

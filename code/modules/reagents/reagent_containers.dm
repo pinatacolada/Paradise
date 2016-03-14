@@ -12,9 +12,13 @@
 	set name = "Set transfer amount"
 	set category = "Object"
 	set src in range(0)
+
 	if(usr.stat || !usr.canmove || usr.restrained())
 		return
-	var/N = input("Amount per transfer from this:","[src]") as null|anything in possible_transfer_amounts
+	var/default = null
+	if(amount_per_transfer_from_this in possible_transfer_amounts)
+		default = amount_per_transfer_from_this
+	var/N = input("Amount per transfer from this:", "[src]", default) as null|anything in possible_transfer_amounts
 	if (N)
 		amount_per_transfer_from_this = N
 
@@ -68,3 +72,10 @@
 			data += "[R.id]([R.volume] units); " //Using IDs because SOME chemicals(I'm looking at you, chlorhydrate-beer) have the same names as other chemicals.
 		return data
 	else return "No reagents"
+
+/obj/item/weapon/reagent_containers/wash(mob/user, atom/source)
+	if(is_open_container())
+		reagents.add_reagent("water", min(volume - reagents.total_volume, amount_per_transfer_from_this))
+		user << "<span class='notice'>You fill [src] from [source].</span>"
+		return
+	..()

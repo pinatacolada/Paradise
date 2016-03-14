@@ -108,7 +108,8 @@
 		pda.ownjob = "Personal Assistant"
 		pda.owner = text("[]", src)
 		pda.name = pda.owner + " (" + pda.ownjob + ")"
-		pda.toff = 1
+		var/datum/data/pda/app/messenger/M = pda.find_program(/datum/data/pda/app/messenger)
+		M.toff = 1
 	..()
 
 /mob/living/silicon/pai/Login()
@@ -244,7 +245,7 @@
 					if ((O.client && !( O.blinded )))
 						O.show_message(text("\red <B>[] has slashed at []!</B>", M, src), 1)
 				if(prob(8))
-					flick("noise", src.flash)
+					flash_eyes(affect_silicon = 1)
 				src.adjustBruteLoss(damage)
 				src.updatehealth()
 			else

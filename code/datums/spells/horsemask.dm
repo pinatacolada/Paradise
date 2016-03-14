@@ -14,7 +14,7 @@
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human)
 
-	action_icon_state = "spell_horse"
+	action_icon_state = "barn"
 
 /obj/effect/proc_holder/spell/targeted/horsemask/cast(list/targets, mob/user = usr)
 	if(!targets.len)
@@ -44,4 +44,4 @@
 		qdel(target.wear_mask)
 	target.equip_to_slot_if_possible(magichead, slot_wear_mask, 1, 1)
 
-	flick("e_flash", target.flash)
+	target.flash_eyes()

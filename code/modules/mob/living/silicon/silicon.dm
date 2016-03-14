@@ -50,9 +50,14 @@
 		AH.unregister(src)
 	return ..()
 
-/mob/living/silicon/proc/SetName(pickedName as text)
-	real_name = pickedName
+/mob/living/silicon/rename_character(oldname, newname)
+	// we actually don't want it changing minds and stuff
+	if(!newname)
+		return 0
+
+	real_name = newname
 	name = real_name
+	return 1
 
 /mob/living/silicon/proc/show_laws()
 	return
@@ -68,7 +73,7 @@
 		if(2)
 			src.take_organ_damage(10)
 			Stun(3)
-	flick("noise", src:flash)
+	flash_eyes(affect_silicon = 1)
 	src << "\red <B>*BZZZT*</B>"
 	src << "\red Warning: Electromagnetic pulse detected."
 	..()
@@ -340,3 +345,10 @@
 	for(var/obj/machinery/camera/C in A.cameras())
 		cameratext += "[(cameratext == "")? "" : "|"]<A HREF=?src=\ref[src];switchcamera=\ref[C]>[C.c_tag]</A>"
 	src << "[A.alarm_name()]! ([(cameratext)? cameratext : "No Camera"])"
+
+/mob/living/silicon/adjustToxLoss(var/amount)
+	return
+
+/mob/living/silicon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /obj/screen/fullscreen/flash/noise)
+	if(affect_silicon)
+		return ..()

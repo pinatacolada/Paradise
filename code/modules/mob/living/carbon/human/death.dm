@@ -90,6 +90,7 @@
 	stat = DEAD
 	dizziness = 0
 	jitteriness = 0
+	heart_attack = 0
 
 	//Handle species-specific deaths.
 	if(species) species.handle_death(src)
@@ -104,13 +105,7 @@
 				B = I
 	if(B)
 		if(!B.ckey && ckey && B.controlling)
-			B.ckey = ckey
-			B.controlling = 0
-		if(B.host_brain.ckey)
-			ckey = B.host_brain.ckey
-			B.host_brain.ckey = null
-			B.host_brain.name = "host brain"
-			B.host_brain.real_name = "host brain"
+			B.detatch()
 
 		verbs -= /mob/living/carbon/proc/release_control
 
@@ -127,7 +122,6 @@
 
 	if(!gibbed)
 		update_canmove()
-		if(client) blind.layer = 0
 
 	timeofdeath = worldtime2text()
 	med_hud_set_health()

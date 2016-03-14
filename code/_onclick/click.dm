@@ -319,16 +319,8 @@
 	LE.current = T
 	LE.yo = U.y - T.y
 	LE.xo = U.x - T.x
-	spawn( 1 )
+	spawn(1)
 		LE.process()
-
-/mob/living/carbon/human/LaserEyes()
-	if(nutrition>0)
-		..()
-		nutrition = max(nutrition - rand(1,5),0)
-		handle_regular_hud_updates()
-	else
-		src << "\red You're out of energy!  You need food!"
 
 /mob/proc/PowerGlove(atom/A)
 	return
@@ -413,9 +405,9 @@
 		buckled.handle_rotation()*/
 
 /obj/screen/click_catcher
-	icon = 'icons/mob/screen1_full.dmi'
+	icon = 'icons/mob/screen_full.dmi'
 	icon_state = "passage0"
-	layer = 0
+	plane = CLICKCATCHER_PLANE
 	mouse_opacity = 2
 	screen_loc = "CENTER-7,CENTER-7"
 

@@ -207,6 +207,47 @@
 		"Vox" = 'icons/mob/species/vox/eyes.dmi'
 		)
 
+
+/obj/item/clothing/glasses/sunglasses/noir
+	name = "noir sunglasses"
+	desc = "Somehow these seem even more out-of-date than normal sunglasses."
+	color_view = list(0.3, 0.3, 0.3, 0,\
+						0.3, 0.3, 0.3, 0,\
+ 						0.3, 0.3, 0.3, 0,\
+ 						0.0, 0.0, 0.0, 1,) //greyscale
+
+/obj/item/clothing/glasses/sunglasses/noir/equipped(mob/user, slot)
+	if(color_view && user.client && !user.client.color)
+		animate(user.client, color = color_view, time = 10)
+
+	..(user, slot)
+
+/obj/item/clothing/glasses/sunglasses/noir/dropped(mob/user)
+	if(user.client && user.client.color)
+		animate(user.client, color = null, time = 10)
+	..(user)
+
+/obj/item/clothing/glasses/sunglasses/yeah
+	name = "agreeable glasses"
+	desc = "H.C Limited edition."
+	var/punused = null
+	action_button_name = "YEAH!"
+
+/obj/item/clothing/glasses/sunglasses/yeah/attack_self()
+	pun()
+
+
+/obj/item/clothing/glasses/sunglasses/yeah/verb/pun()
+	set category = "Object"
+	set name = "YEAH!"
+	set src in usr
+	if(!punused)//one per round
+		punused = 1
+		playsound(src.loc, 'sound/misc/yeah.ogg', 100, 1)
+	else
+		usr << "The moment is gone."
+
+
 /obj/item/clothing/glasses/sunglasses/reagent
 	name = "sunscanners"
 	desc = "Strangely ancient technology used to help provide rudimentary eye color. Outfitted with apparatus to scan individual reagents."
@@ -250,9 +291,6 @@
 		"Vox" = 'icons/mob/species/vox/eyes.dmi'
 		)
 
-/obj/item/clothing/glasses/welding/proc/getMask()
-	return global_hud.darkMask
-
 /obj/item/clothing/glasses/welding/attack_self()
 	toggle()
 
@@ -294,9 +332,6 @@
 	sprite_sheets = list(
 		"Vox" = 'icons/mob/species/vox/eyes.dmi'
 		)
-
-/obj/item/clothing/glasses/welding/superior/getMask()
-	return null
 
 /obj/item/clothing/glasses/sunglasses/blindfold
 	name = "blindfold"
